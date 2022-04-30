@@ -29,10 +29,10 @@ int charLayout[10][15] = {           //every row is one character on the panel
 
 
 RCSwitch mySwitch = RCSwitch();     //std rcswitch stuff
-unsigned long code0 = 16432;       //the 4 different codes of the remote
-unsigned long code1 = 1235;
-unsigned long code2 = 1236;
-unsigned long code3 = 1237;
+unsigned long code0 = 2048048;       //the 4 different codes of the remote
+unsigned long code1 = 504265;
+unsigned long code2 = 5042651;
+unsigned long code3 = 5042652 ;
 
 int score[2] = {0, 0};     //score var: 0 for Left, 1 for Right
 
@@ -45,7 +45,6 @@ void setup() {
   pinMode(6, INPUT_PULLUP);
   pinMode(10, INPUT_PULLUP);
   resetScore();
-  Serial.print("boot ok");
 }
 
 
@@ -132,7 +131,7 @@ void setNumber(int team, int teamScore) {     //displays the score
 
 void setScore(int team, int val) {    //update the score and calls the display function
   int teamScore = score[team];
-  if (val == 0) {
+  if (val == 0 | teamScore > 99) {
     teamScore = 0;
   } else {
     teamScore += val;
@@ -156,10 +155,12 @@ void rightAdd() {
 
 void leftSubtract() {
   setScore(0, -1);
+  subtractSound();
 }
 
 void rightSubtract() {
   setScore(1, -1);
+  subtractSound();
 }
 
 void resetScore() {
@@ -173,5 +174,12 @@ void resetSound() {
   tone(7, 3000, 100);
   delay(100);
   tone(7, 2000, 100);
+  delay(100);
+}
+
+void subtractSound(){
+  tone(7, 4000, 100);
+  delay(100);
+  tone(7, 3000, 100);
   delay(100);
 }
